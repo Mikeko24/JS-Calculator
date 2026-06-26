@@ -1,0 +1,312 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ebf4f5 0%, #b5c6e0 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.calculator {
+    background: #1e1e24;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+}
+
+.display {
+    background: #1e1e24;
+    border: 2px solid #fff8f0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    text-align: right;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#display {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #fff8f0;
+    font-size: 2em;
+    text-align: right;
+    outline: none;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    word-wrap: break-word;
+}
+
+#display .fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+#display .fraction .numerator {
+    border-bottom: 2px solid #fff8f0;
+    padding: 0 5px 2px 5px;
+}
+
+#display .fraction .denominator {
+    padding: 2px 5px 0 5px;
+}
+
+#display .fraction .numerator:empty::after,
+#display .fraction .denominator:empty::after {
+    content: '□';
+    opacity: 0.5;
+    font-size: 0.8em;
+}
+
+#display.typing {
+    animation: typing 0.1s ease;
+}
+
+#display.result {
+    animation: resultPop 0.3s ease;
+    color: #51cf66;
+}
+
+.mode-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.toggle-btn {
+    background: #1e1e24;
+    color: #fff8f0;
+    border: 2px solid #fff8f0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: #92140c;
+    transform: translateY(-2px);
+}
+
+.toggle-btn.active {
+    background: #92140c;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.scientific-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.5s ease;
+}
+
+/* Custom scrollbar for scientific mode */
+.scientific-buttons::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scientific-buttons::-webkit-scrollbar-track {
+    background: #1e1e24;
+    border-radius: 4px;
+}
+
+.scientific-buttons::-webkit-scrollbar-thumb {
+    background: #e7ecef;
+    border-radius: 4px;
+}
+
+.scientific-buttons::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+}
+
+/* Firefox scrollbar */
+.scientific-buttons {
+    scrollbar-width: thin;
+    scrollbar-color: #e7ecef #1e1e24;
+}
+
+.scientific-buttons.active {
+    max-height: 200px;
+    opacity: 1;
+    margin-bottom: 10px;
+}
+
+.sci-btn {
+    background: #1e1e24;
+    color: #fff8f0;
+    border: 1px solid #fff8f0;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 45px;
+}
+
+.sci-btn:hover {
+    background: #92140c;
+    transform: translateY(-2px);
+}
+
+.sci-btn:active {
+    background: #92140c;
+    transform: translateY(0);
+}
+
+.btn {
+    background: #1e1e24;
+    color: #fff8f0;
+    border: 1px solid #fff8f0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 50px;
+}
+
+.btn:hover {
+    background: #92140c;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    background: #92140c;
+    transform: translateY(0);
+}
+
+.btn.clear {
+    background: #92140c;
+}
+
+.btn.clear:hover {
+    background: #a81a12;
+}
+
+.btn.operator {
+    background: #92140c;
+}
+
+.btn.operator:hover {
+    background: #a81a12;
+}
+
+.btn.equals {
+    background: #fff8f0;
+    color: #1e1e24;
+    grid-column: span 2;
+}
+
+.btn.equals:hover {
+    background: #fff;
+}
+
+@keyframes typing {
+    0% {
+        opacity: 0.5;
+        transform: scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes resultPop {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes buttonPress {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.btn:active, .sci-btn:active {
+    animation: buttonPress 0.15s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scientific-buttons.active .sci-btn {
+    animation: slideIn 0.4s ease forwards;
+}
+
+.scientific-buttons.active .sci-btn:nth-child(1) { animation-delay: 0.05s; }
+.scientific-buttons.active .sci-btn:nth-child(2) { animation-delay: 0.1s; }
+.scientific-buttons.active .sci-btn:nth-child(3) { animation-delay: 0.15s; }
+.scientific-buttons.active .sci-btn:nth-child(4) { animation-delay: 0.2s; }
+.scientific-buttons.active .sci-btn:nth-child(5) { animation-delay: 0.25s; }
+.scientific-buttons.active .sci-btn:nth-child(6) { animation-delay: 0.3s; }
+.scientific-buttons.active .sci-btn:nth-child(7) { animation-delay: 0.35s; }
+.scientific-buttons.active .sci-btn:nth-child(8) { animation-delay: 0.4s; }
+.scientific-buttons.active .sci-btn:nth-child(9) { animation-delay: 0.45s; }
+.scientific-buttons.active .sci-btn:nth-child(10) { animation-delay: 0.5s; }
+.scientific-buttons.active .sci-btn:nth-child(11) { animation-delay: 0.55s; }
+
+@media (max-width: 480px) {
+    .calculator {
+        padding: 15px;
+    }
+    
+    #display {
+        font-size: 1.5em;
+    }
+    
+    .btn, .sci-btn {
+        padding: 12px;
+        font-size: 1em;
+        min-height: 40px;
+    }
+}
